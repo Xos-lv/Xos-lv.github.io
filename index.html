@@ -91,6 +91,58 @@ aside button:hover { background: #e5e5e5; }
   display: none;
 }
 #overlay.show { display: block; }
+  /* 遮罩层 */
+.rotate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(8px);           /* 毛玻璃 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn .4s ease;
+}
+
+/* 内容盒子 */
+.rotate-box {
+  text-align: center;
+  color: #fff;
+  padding: 32px 24px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,.3);
+}
+
+/* 图标旋转动画 */
+.rotate-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  animation: rotate 2s ease-in-out infinite;
+}
+
+.rotate-text {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(255,255,255,.4);
+}
+
+/* 动画定义 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes rotate {
+  0%,100% { transform: rotate(  0deg); }
+  50%     { transform: rotate( 90deg); }
+}
+
+/* 横屏时立即隐藏 */
+@media (orientation: landscape) {
+  .rotate-overlay { display: none; }
+}
 </style>
 </head>
 
@@ -128,5 +180,15 @@ function toggleMenu() {
   mask.classList.toggle('show');
 }
 </script>
+  <div id="rotateOverlay" class="rotate-overlay">
+  <div class="rotate-box">
+    <!-- 手机转屏动画图标 -->
+    <svg class="rotate-icon" viewBox="0 0 48 48">
+      <path d="M38 8l6 6-6 6M10 40l-6-6 6-6M8 10h24v24H8z" stroke="#fff" stroke-width="3" fill="none"/>
+      <path d="M24 16v8l4-4" stroke="#fff" stroke-width="2" fill="none"/>
+    </svg>
+    <p class="rotate-text">为了更好的体验<br>请将手机横过来</p>
+  </div>
+</div>
 </body>
 </html>

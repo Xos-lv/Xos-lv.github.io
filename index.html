@@ -45,11 +45,84 @@
         gap: 4px;
       }
 
+      .btn-menu span{
+        width: 18px;
+        height: 2px;
+        background: #333;
+        border-radius: 1px;
+        
+      }
+
+      aside {
+        position: fixed;
+        top: 0;
+        right: -260px;
+        width: 260px;
+        height: 100%;
+        background: #0D1117;
+        box-shadow: -2px 0 6px rgba(0,0,0,.1);
+        transition: right .3s;
+        padding: 60px 20px 20px;
+        }
+
+      aside.open{ right: 0; }
+
+      aside buttun {
+        display: block;
+        width: 100%;
+        maagin: 10px 0;
+        padding: 10px 0;
+        border: none;
+        background: #f5f5f5;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        
+      }
+      aside button:hover { background: #e5e5e5; }
+
+      #overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.35);
+        display: none;
+        
+      }
+      #overlay.show{ display: block; }
+
+      
+
       
     </style>
   </head>
 
   <body>
-    <h1>Xos-lv</h1>
+    <div class="banner">
+      <div class="btn-search" onclick="goSearch()"></div>
+      <div class="btn-menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <aside id="sideMenu">
+      <botton style"color: #FFFFFF;">首页</botton>
+      <botton style"color: #FFFFFF;">我还没做</botton>
+      <botton style"color: #FFFFFF;">我还没做</botton>
+      <botton style"color: #FFFFFF;">留言板</botton>
+    </aside>
+
+    <div id="overlay" onclick="toggleMenu()"></div>
+
+    <script>
+      function goSearch() {
+        location.herf = '/search.html';
+        
+      }
+      function toggleMenu() {
+        const menu = document.getElementById('sideMenu');
+        const mask = document.getElementById('ovrlay');
+        menu.classList.toggle('open');
+        mask.classList.toggle('show');
+      }
+    </script>
   </body>
 </html>

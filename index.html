@@ -1,128 +1,131 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>   Xos-lv - Personal Blog From GitHub-Pages   </title>
+<head>
+<meta charset="UTF-8">
+<title>顶部图片 + 搜索 + 侧边菜单</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>
+/* 1. 基础样式 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+/* 2. 顶部图 wrapper */
+.banner {
+  position: relative;          /* 让两个图标可以绝对定位 */
+  width: 100%;
+  height: 200px;               /* 高度随意调 */
+  background: url(https://picsum.photos/1200/200) center/cover no-repeat;
+}
 
-      .banner {
-        position: relative;
-        width: 100%;
-        height: 200px;
-        background: src(/images/upbackground.jpg) center/cover no-repeat; 
-      }
+/* 3. 左上角搜索图标 */
+.btn-search {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') center/20px no-repeat;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.15);
+}
 
-      .btn-search {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        width: 32px;
-        height: 32px;
-        cursor: pointer;
-        background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') center/20px no-repeat; 
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0,0,0,.15);
-      }
-      
-      .btn-menu {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        width: 32px;
-        height: 32px;
-        cursor: pointer;
-        background: #fff;
-        border-redius: 4px;
-        box-shadow: 0 2px 4px rgba(0,0,0,.15);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-      }
+/* 4. 右上角“三条杠” */
+.btn-menu {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.btn-menu span {
+  width: 18px;
+  height: 2px;
+  background: #333;
+  border-radius: 1px;
+}
 
-      .btn-menu span{
-        width: 18px;
-        height: 2px;
-        background: #333;
-        border-radius: 1px;
-        
-      }
+/* 5. 侧边抽屉菜单 */
+aside {
+  position: fixed;
+  top: 0;
+  right: -260px;          /* 默认藏到右边 */
+  width: 260px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 6px rgba(0,0,0,.1);
+  transition: right .3s;
+  padding: 60px 20px 20px;
+}
+aside.open { right: 0; }
 
-      aside {
-        position: fixed;
-        top: 0;
-        right: -260px;
-        width: 260px;
-        height: 100%;
-        background: #fff;
-        /*box-shadow: -2px 0 6px rgba(0,0,0,.1);*/
-        transition: right .3s;
-        padding: 60px 20px 20px;
-        }
+/* 6. 菜单里随便放按钮 */
+aside button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px 0;
+  border: none;
+  background: #f5f5f5;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+aside button:hover { background: #e5e5e5; }
 
-      aside.open{ right: 0; }
+/* 7. 遮罩层（点击外部可关闭） */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  display: none;
+}
+#overlay.show { display: block; }
+</style>
+</head>
 
-      aside buttun {
-        display: block;
-        width: 100%;
-        maagin: 10px 0;
-        padding: 10px 0;
-        border: none;
-        background: #f5f5f5;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        
-      }
-      aside button:hover { background: #e5e5e5; }
-
-      #overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.35);
-        display: none;
-        
-      }
-      #overlay.show{ display: block; }
-
-      
-
-      
-    </style>
-  </head>
-
-  <body>
-    <div class="banner">
-      <div class="btn-search" onclick="goSearch()"></div>
-      <div class="btn-menu" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </div>
+<body>
+  <!-- 顶部图片 -->
+  <div class="banner">
+    <!-- 搜索图标 -->
+    <div class="btn-search" onclick="goSearch()"></div>
+    <!-- 三条杠 -->
+    <div class="btn-menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
     </div>
-    <aside id="sideMenu">
-      <div><botton>首页</botton></div>
-      <div><botton>我还没做</botton></div>
-      <div><botton>我还没做</botton></div>
-      <div><botton>留言板</botton></div>
-    </aside>
+  </div>
 
-    <div id="overlay" onclick="toggleMenu()"></div>
+  <!-- 侧边抽屉菜单 -->
+  <aside id="sideMenu">
+    <button>首页</button>
+    <button>分类</button>
+    <button>收藏</button>
+    <button>我的</button>
+  </aside>
 
-    <script>
-      function goSearch() {
-        location.herf = '/search.html';
-        
-      }
-      function toggleMenu() {
-        const menu = document.getElementById('sideMenu');
-        const mask = document.getElementById('overlay');
-        menu.classList.toggle('open');
-        mask.classList.toggle('show');
-      }
-    </script>
-  </body>
+  <!-- 遮罩层 -->
+  <div id="overlay" onclick="toggleMenu()"></div>
+
+<script>
+function goSearch() {
+  // 这里跳到你真正的搜索页
+  location.href = '/search';
+}
+function toggleMenu() {
+  const menu = document.getElementById('sideMenu');
+  const mask = document.getElementById('overlay');
+  menu.classList.toggle('open');
+  mask.classList.toggle('show');
+}
+</script>
+</body>
 </html>
